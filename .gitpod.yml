@@ -1,0 +1,8 @@
+#tasks:
+#  - init: ./gradlew build
+#  - init: echo 'init script'
+#    command: echo 'start script'
+vscode:
+  extensions:
+    - mathiasfrohlich.Kotlin@1.7.1:2Uw0hH38NcpgInldjuwF3g==
+    - formulahendry.code-runner@0.9.17:/CI2LS8o4IE980vinLu1Yg==
