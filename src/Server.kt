@@ -7,13 +7,14 @@ import io.ktor.gson.gson
 import io.ktor.locations.Locations
 import io.ktor.request.path
 import io.ktor.routing.routing
+import io.ktor.server.cio.EngineMain
 import io.ktor.server.engine.ShutDownUrl
 import org.slf4j.event.Level
 
 object Main {
   @JvmStatic
   fun main(args: Array<String>) {
-    io.ktor.server.cio.EngineMain.main(args)
+    EngineMain.main(args)
   }
 }
 
