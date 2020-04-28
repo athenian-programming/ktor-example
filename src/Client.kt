@@ -12,39 +12,34 @@ import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 
-val client = HttpClient(CIO) {
-    install(JsonFeature) {
-        serializer = GsonSerializer()
-    }
-    install(Logging) {
-        level = LogLevel.HEADERS
-    }
-}
-
 fun main() {
-    runBlocking {
-        println(
-            client.get<JsonSampleClass1> {
-                url("http://localhost:8080/json/gson1")
-                contentType(Json)
-            }
-        )
 
-        println(
-            client.get<JsonSampleClass2> {
-                url("http://localhost:8080/json/gson2")
-                contentType(Json)
-            }
-        )
-
-
-        /*
-        val message2 = client.post<JsonSampleClass> {
-            url("http://localhost:8080/path/to/endpoint")
-            contentType(Json)
-            body = JsonSampleClass(hello = "world")
-        }
-         */
+  val client =
+    HttpClient(CIO) {
+      install(JsonFeature) {
+        serializer = GsonSerializer()
+      }
+      install(Logging) {
+        level = LogLevel.HEADERS
+      }
     }
+
+
+  runBlocking {
+
+    println(
+      client.get<JsonSampleClass1> {
+        url("http://localhost:8080/json1")
+        contentType(Json)
+      }
+    )
+
+    println(
+      client.get<JsonSampleClass2> {
+        url("http://localhost:8080/json2")
+        contentType(Json)
+      }
+    )
+  }
 
 }

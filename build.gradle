@@ -71,8 +71,29 @@ task uberjar(type: Jar, dependsOn: shadowJar) {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
+                                       '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
+                                       '-Xuse-experimental=io.ktor.locations.KtorExperimentalLocationsAPI',
+                                       '-Xuse-experimental=kotlin.ExperimentalStdlibApi',
+                                       '-XXLanguage:+InlineClasses']
 }
+
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
+                                       '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
+                                       '-Xuse-experimental=io.ktor.locations.KtorExperimentalLocationsAPI',
+                                       '-Xuse-experimental=kotlin.ExperimentalStdlibApi',
+                                       '-XXLanguage:+InlineClasses']
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
 }
