@@ -16,5 +16,6 @@ object Main {
 fun Application.module(testing: Boolean = false) {
   installs()
   routes()
+  locations()
 }
 

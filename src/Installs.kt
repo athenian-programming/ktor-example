@@ -1,11 +1,14 @@
 package org.athenian
 
 import io.ktor.application.Application
+import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.*
 import io.ktor.gson.gson
+import io.ktor.http.HttpStatusCode
 import io.ktor.locations.Locations
 import io.ktor.request.path
+import io.ktor.response.respond
 import io.ktor.server.engine.ShutDownUrl
 import org.slf4j.event.Level
 
@@ -39,4 +42,17 @@ fun Application.installs() {
 
   install(Locations) {
   }
+
+  install(StatusPages) {
+    exception<AuthenticationException> { cause ->
+      call.respond(HttpStatusCode.Unauthorized)
+    }
+    exception<AuthorizationException> { cause ->
+      call.respond(HttpStatusCode.Forbidden)
+    }
+  }
+
 }
+
+class AuthenticationException : RuntimeException()
+class AuthorizationException : RuntimeException()
