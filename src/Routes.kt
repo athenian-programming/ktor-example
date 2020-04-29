@@ -1,5 +1,6 @@
 package org.athenian
 
+import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.StatusPages
@@ -12,58 +13,60 @@ import io.ktor.locations.Location
 import io.ktor.locations.get
 import io.ktor.response.respond
 import io.ktor.response.respondText
-import io.ktor.routing.Routing
 import io.ktor.routing.get
+import io.ktor.routing.routing
 
-fun Routing.routes() {
-  get("/") {
-    call.respondText("Hello world from ktor-example!", contentType = ContentType.Text.Plain)
-  }
-
-  get("/html") {
-    call.respondHtml {
-      homePage()
+fun Application.routes() {
+  routing {
+    get("/") {
+      call.respondText("Hello world from ktor-example!", contentType = ContentType.Text.Plain)
     }
-  }
 
-  get("/styles.css") {
-    call.respondCss {
-      cssContent()
+    get("/html") {
+      call.respondHtml {
+        homePage()
+      }
     }
-  }
 
-  get("/json1") {
-    call.respond(mapOf("greeting" to "Hello"))
-  }
-
-  get("/json2") {
-    call.respond(mapOf("greeting" to "Hello", "name" to "Bill"))
-  }
-
-  static("/static") {
-    resources("static")
-  }
-
-  install(StatusPages) {
-    exception<AuthenticationException> { cause ->
-      call.respond(HttpStatusCode.Unauthorized)
+    get("/styles.css") {
+      call.respondCss {
+        cssContent()
+      }
     }
-    exception<AuthorizationException> { cause ->
-      call.respond(HttpStatusCode.Forbidden)
+
+    get("/json1") {
+      call.respond(mapOf("greeting" to "Hello"))
     }
-  }
 
-  get<MyLocation> {
-    call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
-  }
+    get("/json2") {
+      call.respond(mapOf("greeting" to "Hello", "name" to "Bill"))
+    }
 
-  // Register nested routes
-  get<Type.Edit> {
-    call.respondText("Inside $it")
-  }
+    static("/static") {
+      resources("static")
+    }
 
-  get<Type.List> {
-    call.respondText("Inside $it")
+    install(StatusPages) {
+      exception<AuthenticationException> { cause ->
+        call.respond(HttpStatusCode.Unauthorized)
+      }
+      exception<AuthorizationException> { cause ->
+        call.respond(HttpStatusCode.Forbidden)
+      }
+    }
+
+    get<MyLocation> {
+      call.respondText("Location: name=${it.name}, arg1=${it.arg1}, arg2=${it.arg2}")
+    }
+
+    // Register nested routes
+    get<Type.Edit> {
+      call.respondText("Inside $it")
+    }
+
+    get<Type.List> {
+      call.respondText("Inside $it")
+    }
   }
 }
 
