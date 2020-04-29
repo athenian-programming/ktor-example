@@ -17,10 +17,10 @@ import io.ktor.routing.get
 
 fun Routing.routes() {
   get("/") {
-    call.respondText("HELLO WORLD!", contentType = ContentType.Text.Plain)
+    call.respondText("Hello world from ktor-example!", contentType = ContentType.Text.Plain)
   }
 
-  get("/html-dsl") {
+  get("/html") {
     call.respondHtml {
       homePage()
     }

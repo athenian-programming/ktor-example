@@ -7,15 +7,15 @@ import kotlinx.css.*
 
 fun CSSBuilder.cssContent() {
     body {
-        backgroundColor = Color.red
+        backgroundColor = Color.white
     }
 
-    p {
-        fontSize = 2.em
+    ul {
+        fontSize = 1.em
     }
 
     rule("div.mylist") {
-        color = Color.blue
+        color = Color.red
     }
 }
 

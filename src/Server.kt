@@ -15,13 +15,11 @@ import org.slf4j.event.Level
 object Main {
   @JvmStatic
   fun main(args: Array<String>) {
-    //EngineMain.main(args)
     val port = Integer.parseInt(System.getProperty("PORT") ?: "8080")
     embeddedServer(CIO, port = port) { module() }.start(wait = true)
   }
 }
 
-@Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
 
@@ -41,9 +39,7 @@ fun Application.module(testing: Boolean = false) {
   }
 
   install(ShutDownUrl.ApplicationCallFeature) {
-    // The URL that will be intercepted (you can also use the application.conf's ktor.deployment.shutdown.url key)
     shutDownUrl = "/ktor/application/shutdown"
-    // A function that will be executed to get the exit code of the process
     exitCodeSupplier = { 0 } // ApplicationCall.() -> Int
   }
 
