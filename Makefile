@@ -14,6 +14,9 @@ uberjar:
 uber: uberjar
 	java -jar build/libs/server.jar
 
+tests:
+	./gradlew check
+
 heroku:
 	git push heroku master
 

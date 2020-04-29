@@ -13,7 +13,7 @@ class ApplicationTest {
     withTestApplication({ module(testing = true) }) {
       handleRequest(HttpMethod.Get, "/").apply {
         assertEquals(HttpStatusCode.OK, response.status())
-        assertEquals("Hello world from ktor-example!", response.content)
+        assertEquals(greeting, response.content)
       }
     }
   }

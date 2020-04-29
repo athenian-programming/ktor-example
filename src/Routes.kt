@@ -16,10 +16,12 @@ import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
 
+const val greeting = "Hello world from ktor-example!"
+
 fun Application.routes() {
   routing {
     get("/") {
-      call.respondText("Hello world from ktor-example!", contentType = ContentType.Text.Plain)
+      call.respondText(greeting, contentType = ContentType.Text.Plain)
     }
 
     get("/html") {
