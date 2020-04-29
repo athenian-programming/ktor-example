@@ -11,7 +11,7 @@ fun HTML.homePage(params: Parameters) {
   }
 
   body {
-    h1 { +"Hello ${params["first"]} ${params["last"]} my list is:" }
+    h1 { +"Hello ${params["first"] ?: ""} ${params["last"] ?: ""} my list is:" }
 
     div(classes = "mylist") {
       ul {
