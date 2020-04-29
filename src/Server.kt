@@ -44,7 +44,10 @@ fun Application.module(testing: Boolean = false) {
   }
 
   install(ContentNegotiation) {
-    gson {}
+    gson {
+      setPrettyPrinting()
+      setLenient()
+    }
   }
 
   install(Locations) {
@@ -54,10 +57,4 @@ fun Application.module(testing: Boolean = false) {
     routes()
   }
 }
-
-class AuthenticationException : RuntimeException()
-class AuthorizationException : RuntimeException()
-
-data class JsonSampleClass1(val greeting: String)
-data class JsonSampleClass2(val greeting: String, val name: String)
 

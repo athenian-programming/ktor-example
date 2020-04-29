@@ -43,3 +43,6 @@ fun main() {
   }
 
 }
+
+data class JsonSampleClass1(val greeting: String)
+data class JsonSampleClass2(val greeting: String, val name: String)

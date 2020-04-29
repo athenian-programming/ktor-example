@@ -79,3 +79,5 @@ data class Type(val name: String) {
   data class List(val type: Type, val page: Int)
 }
 
+class AuthenticationException : RuntimeException()
+class AuthorizationException : RuntimeException()
