@@ -7,14 +7,17 @@ import io.ktor.gson.gson
 import io.ktor.locations.Locations
 import io.ktor.request.path
 import io.ktor.routing.routing
-import io.ktor.server.cio.EngineMain
+import io.ktor.server.cio.CIO
 import io.ktor.server.engine.ShutDownUrl
+import io.ktor.server.engine.embeddedServer
 import org.slf4j.event.Level
 
 object Main {
   @JvmStatic
   fun main(args: Array<String>) {
-    EngineMain.main(args)
+    //EngineMain.main(args)
+    val port = Integer.parseInt(System.getProperty("PORT") ?: "8080")
+    embeddedServer(CIO, port = port) { module() }.start(wait = true)
   }
 }
 
