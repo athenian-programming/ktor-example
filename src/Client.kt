@@ -7,12 +7,16 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.request.url
 import io.ktor.http.ContentType.Application.Json
 import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
+import mu.KotlinLogging
 
 fun main() {
+
+  val logger = KotlinLogging.logger {}
 
   val client =
     HttpClient(CIO) {
@@ -20,26 +24,35 @@ fun main() {
         serializer = GsonSerializer()
       }
       install(Logging) {
-        level = LogLevel.HEADERS
+        level = LogLevel.ALL
+        //level = LogLevel.HEADERS
       }
     }
 
 
   runBlocking {
 
-    println(
+    val v1 =
       client.get<JsonSampleClass1> {
         url("http://localhost:8080/json1")
         contentType(Json)
       }
-    )
+    logger.info { "v1 = $v1" }
 
-    println(
+    val v2 =
       client.get<JsonSampleClass2> {
         url("http://localhost:8080/json2")
         contentType(Json)
       }
-    )
+    logger.info { "v2 = $v2" }
+
+    val v3 =
+      client.post<JsonSampleClass2> {
+        url("http://localhost:8080/json3")
+        contentType(Json)
+        body = JsonSampleClass2("Hola", "Jill")
+      }
+    logger.info { "v3 = $v3" }
   }
 
 }
