@@ -1,8 +1,8 @@
 package org.athenian
 
-import io.ktor.application.Application
-import io.ktor.server.cio.CIO
-import io.ktor.server.engine.embeddedServer
+import io.ktor.application.*
+import io.ktor.server.cio.*
+import io.ktor.server.engine.*
 
 object Main {
   @JvmStatic
@@ -12,7 +12,6 @@ object Main {
   }
 }
 
-@kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
   installs()
   routes()
