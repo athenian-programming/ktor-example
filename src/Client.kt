@@ -1,16 +1,12 @@
 package org.athenian
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logging
-import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.url
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.features.json.*
+import io.ktor.client.features.logging.*
+import io.ktor.client.request.*
+import io.ktor.http.*
 import io.ktor.http.ContentType.Application.Json
-import io.ktor.http.contentType
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 
@@ -28,7 +24,6 @@ fun main() {
         //level = LogLevel.HEADERS
       }
     }
-
 
   runBlocking {
 

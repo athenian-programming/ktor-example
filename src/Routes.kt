@@ -20,6 +20,11 @@ val logger = KotlinLogging.logger {}
 fun Application.routes() {
 
   routing {
+
+    static("/static") {
+      resources("static")
+    }
+
     get("/") {
       call.respondText(greeting, contentType = ContentType.Text.Plain)
     }
@@ -85,10 +90,6 @@ fun Application.routes() {
       val postData = call.receive<JsonSampleClass2>()
       logger.info { "postData = $postData" }
       call.respond(JsonSampleClass2(postData.greeting.toUpperCase(), postData.name.toUpperCase()))
-    }
-
-    static("/static") {
-      resources("static")
     }
   }
 }
