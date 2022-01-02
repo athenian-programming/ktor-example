@@ -1,6 +1,6 @@
 package org.athenian
 
-import io.ktor.application.*
+import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 

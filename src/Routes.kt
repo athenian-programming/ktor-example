@@ -1,18 +1,35 @@
 package org.athenian
 
-import io.ktor.application.*
-import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.ContentType.Text.CSS
-import io.ktor.http.content.*
-import io.ktor.request.*
-import io.ktor.response.*
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.routing
-import kotlinx.css.*
-import kotlinx.html.*
+import io.ktor.server.application.*
+import io.ktor.server.html.*
+import io.ktor.server.http.content.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.routing
+import kotlinx.css.CSSBuilder
+import kotlinx.css.Color
+import kotlinx.css.backgroundColor
+import kotlinx.css.body
+import kotlinx.css.color
+import kotlinx.css.em
+import kotlinx.css.fontSize
+import kotlinx.css.ul
+import kotlinx.html.body
+import kotlinx.html.div
+import kotlinx.html.h1
+import kotlinx.html.head
+import kotlinx.html.img
+import kotlinx.html.li
+import kotlinx.html.link
+import kotlinx.html.p
+import kotlinx.html.title
+import kotlinx.html.ul
 import mu.KotlinLogging
+import java.util.*
 
 const val greeting = "Hello world from ktor-example!"
 val logger = KotlinLogging.logger {}
@@ -87,9 +104,14 @@ fun Application.routes() {
     }
 
     post("/json3") {
-      val postData = call.receive<JsonSampleClass2>()
+      val postData = call.receive<JsonSampleClass>()
       logger.info { "postData = $postData" }
-      call.respond(JsonSampleClass2(postData.greeting.toUpperCase(), postData.name.toUpperCase()))
+      call.respond(
+        JsonSampleClass(
+          postData.greeting.uppercase(Locale.getDefault()),
+          postData.name.uppercase(Locale.getDefault())
+        )
+      )
     }
   }
 }

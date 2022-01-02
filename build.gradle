@@ -1,16 +1,16 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.30-M1'
-    id "com.github.ben-manes.versions" version "0.36.0"
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id "com.github.ben-manes.versions" version "0.40.0"
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 repositories {
-    maven { url 'https://kotlin.bintray.com/ktor' }
-    maven { url 'https://kotlin.bintray.com/kotlinx' }
-    maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
-    maven { url 'https://maven-central.storage-download.googleapis.com/repos/central/data/' }
-    jcenter()
+    maven { url 'https://maven.pkg.jetbrains.space/public/p/ktor/eap'; name 'ktor-eap' }
+    maven { url "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers" }
+    google()
+    mavenCentral()
     maven { url = 'https://jitpack.io' }
 }
 
@@ -31,22 +31,21 @@ sourceSets {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "io.ktor:ktor-server-cio:$ktor_version"
-    implementation "io.ktor:ktor-server-core:$ktor_version"
-    implementation "io.ktor:ktor-html-builder:$ktor_version"
-    implementation "io.ktor:ktor-server-host-common:$ktor_version"
-    implementation "io.ktor:ktor-locations:$ktor_version"
-    implementation "io.ktor:ktor-metrics:$ktor_version"
-    implementation "io.ktor:ktor-gson:$ktor_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
     implementation "org.jetbrains:kotlin-css-jvm:$css_version"
 
-    implementation "io.ktor:ktor-client-core:$ktor_version"
-    implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+    implementation "io.ktor:ktor-serialization-gson:$ktor_version"
+
+    implementation "io.ktor:ktor-server:$ktor_version"
+    implementation "io.ktor:ktor-server-cio:$ktor_version"
+    implementation "io.ktor:ktor-server-html-builder:$ktor_version"
+    implementation "io.ktor:ktor-server-locations:$ktor_version"
+
+    implementation "io.ktor:ktor-client:$ktor_version"
     implementation "io.ktor:ktor-client-cio:$ktor_version"
-    implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
-    implementation "io.ktor:ktor-client-gson:$ktor_version"
-    implementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+    implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-client-logging:$ktor_version"
 
     implementation "ch.qos.logback:logback-classic:$logback_version"
 
@@ -83,21 +82,25 @@ task uberjar(type: Jar, dependsOn: shadowJar) {
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = '1.8'
-    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
-                                       '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
-                                       '-Xuse-experimental=io.ktor.locations.KtorExperimentalLocationsAPI',
-                                       '-Xuse-experimental=kotlin.ExperimentalStdlibApi',
-                                       '-XXLanguage:+InlineClasses']
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
+                             '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
+                             '-Xuse-experimental=io.ktor.server.locations.KtorExperimentalLocationsAPI',
+                             '-Xuse-experimental=io.ktor.util.InternalAPI',
+                             '-Xuse-experimental=kotlin.ExperimentalStdlibApi']
+    }
 }
 
 compileTestKotlin {
-    kotlinOptions.jvmTarget = '1.8'
-    kotlinOptions.freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
-                                       '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
-                                       '-Xuse-experimental=io.ktor.locations.KtorExperimentalLocationsAPI',
-                                       '-Xuse-experimental=kotlin.ExperimentalStdlibApi',
-                                       '-XXLanguage:+InlineClasses']
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += ['-Xuse-experimental=kotlin.time.ExperimentalTime',
+                             '-Xuse-experimental=io.ktor.util.KtorExperimentalAPI',
+                             '-Xuse-experimental=io.ktor.server.locations.KtorExperimentalLocationsAPI',
+                             '-Xuse-experimental=io.ktor.util.InternalAPI',
+                             '-Xuse-experimental=kotlin.ExperimentalStdlibApi']
+    }
 }
 
 test {

@@ -1,13 +1,13 @@
 package org.athenian
 
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.gson.*
 import io.ktor.http.*
-import io.ktor.locations.*
-import io.ktor.request.*
-import io.ktor.response.*
+import io.ktor.serialization.gson.*
+import io.ktor.server.application.*
 import io.ktor.server.engine.*
+import io.ktor.server.locations.*
+import io.ktor.server.plugins.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
 import org.slf4j.event.Level
 
 fun Application.installs() {
@@ -26,7 +26,7 @@ fun Application.installs() {
     filter { call -> call.request.path().startsWith("/") }
   }
 
-  install(ShutDownUrl.ApplicationCallFeature) {
+  install(ShutDownUrl.ApplicationCallPlugin) {
     shutDownUrl = "/ktor/application/shutdown"
     exitCodeSupplier = { 0 } // ApplicationCall.() -> Int
   }
@@ -42,10 +42,10 @@ fun Application.installs() {
   }
 
   install(StatusPages) {
-    exception<AuthenticationException> { cause ->
+    exception<AuthenticationException> { call, _ ->
       call.respond(HttpStatusCode.Unauthorized)
     }
-    exception<AuthorizationException> { cause ->
+    exception<AuthorizationException> { call, _ ->
       call.respond(HttpStatusCode.Forbidden)
     }
   }
