@@ -28,7 +28,7 @@ import kotlinx.html.link
 import kotlinx.html.p
 import kotlinx.html.title
 import kotlinx.html.ul
-import mu.KotlinLogging
+import mu.two.KotlinLogging
 import java.util.*
 
 const val greeting = "Hello world from ktor-example!"
@@ -37,7 +37,6 @@ val logger = KotlinLogging.logger {}
 fun Application.routes() {
 
   routing {
-
     static("/static") {
       resources("static")
     }
