@@ -1,16 +1,21 @@
 package org.athenian
 
-import io.ktor.http.*
-import io.ktor.serialization.gson.*
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.locations.*
-import io.ktor.server.plugins.callloging.*
-import io.ktor.server.plugins.compression.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
+import com.google.gson.Strictness
+import io.ktor.http.HttpStatusCode
+import io.ktor.serialization.gson.gson
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.engine.ShutDownUrl
+import io.ktor.server.plugins.calllogging.CallLogging
+import io.ktor.server.plugins.compression.Compression
+import io.ktor.server.plugins.compression.deflate
+import io.ktor.server.plugins.compression.gzip
+import io.ktor.server.plugins.compression.minimumSize
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.request.path
+import io.ktor.server.resources.Resources
+import io.ktor.server.response.respond
 import org.slf4j.event.Level
 
 fun Application.installs() {
@@ -37,11 +42,11 @@ fun Application.installs() {
   install(ContentNegotiation) {
     gson {
       setPrettyPrinting()
-      setLenient()
+      setStrictness(Strictness.LENIENT)
     }
   }
 
-  install(Locations) {
+  install(Resources) {
   }
 
   install(StatusPages) {

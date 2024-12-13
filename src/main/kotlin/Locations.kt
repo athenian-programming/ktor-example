@@ -1,9 +1,10 @@
 package org.athenian
 
-import io.ktor.server.application.*
-import io.ktor.server.locations.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.resources.Resource
+import io.ktor.server.application.Application
+import io.ktor.server.resources.get
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.routing
 
 fun Application.locations() {
   routing {
@@ -22,14 +23,14 @@ fun Application.locations() {
   }
 }
 
-@Location("/location/{name}")
+@Resource("/location/{name}")
 class MyLocation(val name: String, val arg1: Int = 42, val arg2: String = "default")
 
-@Location("/type/{name}")
+@Resource("/type/{name}")
 data class Type(val name: String) {
-  @Location("/edit")
+  @Resource("/edit")
   data class Edit(val type: Type)
 
-  @Location("/list/{page}")
+  @Resource("/list/{page}")
   data class List(val type: Type, val page: Int)
 }

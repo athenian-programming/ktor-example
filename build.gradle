@@ -1,13 +1,11 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
-    id "com.github.ben-manes.versions" version "0.50.0"
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id "com.github.ben-manes.versions" version "0.51.0"
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
-    maven { url 'https://maven.pkg.jetbrains.space/public/p/ktor/eap'; name 'ktor-eap' }
-    maven { url "https://maven.pkg.jetbrains.space/kotlin/p/kotlin/kotlin-js-wrappers" }
     google()
     mavenCentral()
     maven { url = 'https://jitpack.io' }
@@ -16,23 +14,18 @@ repositories {
 def mainName = 'org.athenian.Main'
 def appName = 'server'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 group 'org.athenian'
 version '1.0.0'
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-
-    implementation "org.jetbrains:kotlin-css-jvm:$css_version"
+    implementation "org.jetbrains.kotlin-wrappers:kotlin-css:$css_version"
 
     implementation "io.ktor:ktor-serialization-gson:$ktor_version"
 
     implementation "io.ktor:ktor-server:$ktor_version"
     implementation "io.ktor:ktor-server-cio:$ktor_version"
     implementation "io.ktor:ktor-server-html-builder:$ktor_version"
-    implementation "io.ktor:ktor-server-locations:$ktor_version"
+    implementation "io.ktor:ktor-server-resources:$ktor_version"
     implementation "io.ktor:ktor-server-compression:$ktor_version"
 
     implementation "io.ktor:ktor-client:$ktor_version"
@@ -40,16 +33,18 @@ dependencies {
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-client-logging:$ktor_version"
 
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
-
+    implementation "io.github.oshai:kotlin-logging:$logging_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "org.slf4j:jul-to-slf4j:$slf4j_version"
-    implementation "io.github.microutils:kotlin-logging:$logging_version"
 
-    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
     testImplementation "org.amshove.kluent:kluent:${kluent_version}"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 // Include build uberjars in heroku deploy

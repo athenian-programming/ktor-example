@@ -1,17 +1,20 @@
 package org.athenian
 
-import io.ktor.http.*
+import io.github.oshai.kotlinlogging.KotlinLogging
+import io.ktor.http.ContentType
 import io.ktor.http.ContentType.Text.CSS
-import io.ktor.server.application.*
-import io.ktor.server.html.*
-import io.ktor.server.http.content.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
+import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.html.respondHtml
+import io.ktor.server.http.content.staticResources
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
-import kotlinx.css.CSSBuilder
 import kotlinx.css.Color
+import kotlinx.css.CssBuilder
 import kotlinx.css.backgroundColor
 import kotlinx.css.body
 import kotlinx.css.color
@@ -28,7 +31,6 @@ import kotlinx.html.link
 import kotlinx.html.p
 import kotlinx.html.title
 import kotlinx.html.ul
-import mu.two.KotlinLogging
 import java.util.*
 
 const val greeting = "Hello world from ktor-example!"
@@ -37,9 +39,7 @@ val logger = KotlinLogging.logger {}
 fun Application.routes() {
 
   routing {
-    static("/static") {
-      resources("static")
-    }
+    staticResources("/static", "static")
 
     get("/") {
       call.respondText(greeting, contentType = ContentType.Text.Plain)
@@ -115,6 +115,6 @@ fun Application.routes() {
   }
 }
 
-suspend inline fun ApplicationCall.respondCss(builder: CSSBuilder.() -> Unit) {
-  respondText(CSSBuilder().apply(builder).toString(), CSS)
+suspend inline fun ApplicationCall.respondCss(builder: CssBuilder.() -> Unit) {
+  respondText(CssBuilder().apply(builder).toString(), CSS)
 }
